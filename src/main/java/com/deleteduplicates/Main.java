@@ -22,7 +22,7 @@ public class Main {
             ReadFileCreateArrayList readFileCreateArrayList = new ReadFileCreateArrayList();
             readFileCreateArrayList.createArrayListDeleteDuplicates(file);
         } else {
-            logger.error("There was no file to be inputted. Please select a file and try again.");
+            logger.error("No file was inputted. Please select a file and try again.");
         }
     }
 }
