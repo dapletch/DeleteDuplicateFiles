@@ -1,0 +1,18 @@
+#!/bin/bash
+# This script crawls the given directory and generates a file, which is then processed by executable jar file.
+# The file is then parsed and the contents ordered by the file name so that the duplicates can be found
+# and ultimately be deleted.
+
+# Forewarning, the file to be processed should be kept in same directory that the jar resides in
+# Declaring the global variables
+TIMESTAMP=$(date +%Y-%m-%d_%H-%M)
+
+echo "NOTE: If you are running this script on a windows environment enter the directory, like so: Z:/music-off-laptop"
+echo "Enter the directory you want to search for duplicates: "
+read directory
+
+find "$directory" -type f -follow -print > fileToProcess$TIMESTAMP.txt
+
+java -jar DeleteDuplicateFiles.jar "fileToProcess$TIMESTAMP.txt"
+
+echo "Program Completed Successfully..."

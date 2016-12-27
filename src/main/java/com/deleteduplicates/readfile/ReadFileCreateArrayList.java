@@ -1,6 +1,7 @@
 package com.deleteduplicates.readfile;
 
 import com.deleteduplicates.beans.DuplicateFiles;
+import com.deleteduplicates.dao.InsertReadFromH2Database;
 import com.deleteduplicates.deletefiles.DeleteDuplicateFiles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,11 +19,16 @@ public class ReadFileCreateArrayList {
 
     private List<DuplicateFiles> duplicateFilesToBeCompared = new ArrayList<DuplicateFiles>();
 
+    private List<DuplicateFiles> duplicateFilesListOrdered = new ArrayList<DuplicateFiles>();
+
     private DeleteDuplicateFiles deleteDuplicateFiles = new DeleteDuplicateFiles();
+
+    private InsertReadFromH2Database insertReadFromH2Database = new InsertReadFromH2Database();
 
     public void createArrayListDeleteDuplicates(File file) {
         duplicateFilesToBeCompared = readFileToArrayList(file);
-        deleteDuplicateFiles.deleteDuplicateFiles(duplicateFilesToBeCompared);
+        duplicateFilesListOrdered = insertReadFromH2Database.createInsertReadFromDb(duplicateFilesToBeCompared);
+        deleteDuplicateFiles.deleteDuplicateFiles(duplicateFilesListOrdered);
     }
 
     private List<DuplicateFiles> readFileToArrayList(File file) {
