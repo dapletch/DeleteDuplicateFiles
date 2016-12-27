@@ -16,6 +16,7 @@ public class DeleteDuplicateFiles {
     public void deleteDuplicateFiles(List<DuplicateFiles> duplicateFilesList) {
 
         Boolean fileDeleted;
+        Integer count = 0;
 
         for (Integer i = 0; i < duplicateFilesList.size(); i++) {
             // Need to add one to the index each time the loop iterates through to prevent
@@ -25,8 +26,11 @@ public class DeleteDuplicateFiles {
                     // Delete the duplicate file
                     fileDeleted = duplicateFilesList.get(i + 1).getDuplicateFile().delete();
                     logger.info("File Deleted: " + duplicateFilesList.get(i + 1).getDuplicateFile() + " " + fileDeleted);
+                    // Increment so that the final number of files deleted can be obtained
+                    count++;
                 }
             }
         }
+        logger.info("The number of files deleted: " + count);
     }
 }
