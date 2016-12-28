@@ -1,7 +1,6 @@
 package com.deleteduplicates.dao;
 
 import com.deleteduplicates.beans.DuplicateFiles;
-import com.deleteduplicates.deletefiles.DeleteDuplicateFiles;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
@@ -20,6 +19,9 @@ public class InsertReadFromH2Database {
 
     private String insertIntoDuplicateFilesQuery = "insert into duplicate_files (directory, filename, duplicate_file) " +
             "values (?, ?, ?);";
+
+    // Keeping this just in case someone needs to look at the data
+    // private String exportDataToCsvQuery = "CALL CSVWRITE('C:/Users/Seth/Desktop/DeleteDuplicateFiles/duplicate_files.csv', 'SELECT * FROM duplicate_files ORDER BY filename');";
 
     public List<DuplicateFiles> createInsertReadFromDb(List<DuplicateFiles> duplicateFilesList) {
 
@@ -47,16 +49,20 @@ public class InsertReadFromH2Database {
                 preparedStatement.executeUpdate();
             }
 
+            // Keeping this just for the sake of debugging if need be
+            // statement.executeQuery(exportDataToCsvQuery);
+
             ResultSet rs = statement.executeQuery("select directory\n" +
                     ", filename\n" +
                     ", duplicate_file\n" +
-                    "from duplicate_files \n" +
-                    "order by duplicate_file;");
+                    "from duplicate_files\n" +
+                    "order by filename;");
 
             while (rs.next()) {
                 DuplicateFiles duplicateFiles = new DuplicateFiles(rs.getString(1)
                         , rs.getString(2)
                         , new File(rs.getString(3)));
+                logger.info("Duplicate Files Ordered: " + duplicateFiles.toString());
                 duplicateFilesListOrdered.add(duplicateFiles);
             }
 
