@@ -22,7 +22,12 @@ public class DeleteDuplicateFiles {
             // Need to add one to the index each time the loop iterates through to prevent
             // an index out of bounds exception
             if (duplicateFilesList.size() > (i + 1)) {
-                if (duplicateFilesList.get(i).getFileName().equals(duplicateFilesList.get(i + 1).getFileName())) {
+                /* Check the file name(s) to see if they are equal
+                    Then check the file sizes to see if they are equal
+                    The logic behind this is if the file names are equal and
+                    the sizes are equal then they are the same file, not just different versions */
+                if (duplicateFilesList.get(i).getFileName().equals(duplicateFilesList.get(i + 1).getFileName())
+                        && duplicateFilesList.get(i).getDuplicateFile().length() == duplicateFilesList.get(i + 1).getDuplicateFile().length()) {
                     // Delete the duplicate file
                     fileDeleted = duplicateFilesList.get(i + 1).getDuplicateFile().delete();
                     logger.info("File Deleted: " + duplicateFilesList.get(i + 1).getDuplicateFile() + " " + fileDeleted);
